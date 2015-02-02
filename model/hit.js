@@ -170,7 +170,7 @@ module.exports = function(config) {
    * Retrieves all HITs
    *
    * @param {options.sortProperty} can sort by title | reward | expiration | creationTime. Defaults to "expiration"
-   * @param {options.sortDirection} can sort by Title | Reward | Expiration | CreationTime. Defaults to "Expiration"
+   * @param {options.sortDirection} can sort in Ascending | Descending order. Defaults to "Ascending"
    * @param {options.pageSize} The number of HITs to include in a page of results (int). Defaults to 10. Maximum is 100
    * @param {options.pageNumber} The page of results to return (int). Defaults to 1
    * @param {callback} function with signature (error, int numResults, int totalNumResults, int pageNumber, Array HITs)
@@ -219,9 +219,7 @@ module.exports = function(config) {
            });
          }
        }
-       console.dir(response);
-       //callback(err, numResults, totalNumResults, pageNumber, hits);
-       callback(response);
+       callback(err, numResults, totalNumResults, pageNumber, hits);
      });
    };
 
@@ -369,7 +367,7 @@ module.exports = function(config) {
        return assignment;
      });
 
-     callback(null, numResults, pageNumber, totalNumResults, assignments);
+     callback(null, numResults, totalNumResults, pageNumber, assignments);
    });
   };
 
