@@ -24,7 +24,8 @@
     "express": "4",
     "winston": "0.8.3",
     "underscore": "1.7.0",
-    "sax": "0.6.1"
+    "sax": "0.6.1",
+    "errorhandler": "^1.0.2"
   },
   "engines": {
     "node": ">=0.4.0"
