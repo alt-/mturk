@@ -2,11 +2,12 @@ module.exports = function(config) {
   var express         = require('express')
     , requestVerifier = require('./request_verifier')(config)
     , requestHandler  = require('./request_handler')
+    , errorhandler = require('errorhandler')
     , ret;
 
   var receptor = express();
 
-  receptor.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  receptor.use(errorhandler({ dumpExceptions: true, showStack: true }));
 
   receptor.get('/', requestVerifier, requestHandler);
 
