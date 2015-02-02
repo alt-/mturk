@@ -6,7 +6,6 @@ module.exports = function(config) {
 
   var receptor = express();
 
-  receptor.use(receptor.router);
   receptor.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 
   receptor.get('/', requestVerifier, requestHandler);

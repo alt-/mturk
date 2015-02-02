@@ -21,7 +21,7 @@
   "dependencies": {
     "request": "2.49.0",
     "validator": "0.4.x",
-    "express": "3",
+    "express": "4",
     "winston": "0.8.3",
     "underscore": "1.7.0",
     "sax": "0.6.1"
