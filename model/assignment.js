@@ -128,6 +128,49 @@ module.exports = function(config) {
     });
   }
 
+
+  /*
+   * Approves the rejected Assignment
+   *
+   * @param {requesterFeedback} A message for the Worker, which the Worker can see in the Status section of the web site. (string max 1024 characters). Optional
+   * @param {callback} function with signature (error)
+   * 
+   */
+  Assignment.prototype.approveRejected = function(requesterFeedback, callback) {
+    return ret.approveRejected(this.id, requesterFeedback, callback);
+  };
+
+
+  /*
+   * Retrieves the details of the specified Assignment.
+   *
+   * @param {assignmentId} The ID of the Assignment to retrieve (String)
+   * @param {callback} function with signature (Error error || null, Assignment assignment)
+   *
+   */
+  ret.get = function(assignmentId, callback) {
+    var self = this;
+
+      request('AWSMechanicalTurkRequester', 'GetAssignment', 'GET', { AssignmentId: assignmentId }, function(err, response) {
+      var assignment;
+
+      if (err) { callback(err); return; }
+
+      if (! Assignment.prototype.nodeExists(['GetAssignmentResult', 'Request', 'IsValid'], response)) { callback([new Error('No "GetAssignmentResult > Request > IsValid" node on the response')]); return; }
+      if (response.GetAssignmentResult.Request.IsValid.toLowerCase() != 'true') {
+        callback([new Error('Response says GetAssignmentResult is invalid')]);
+        return;
+      }
+
+      if (! err) {
+        assignment = new Assignment();
+        assignment.populateFromResponse(response.GetAssignmentResult.Assignment);
+      }
+      callback(err, assignment);
+    });
+  };
+
+
   /*
   * Get Assignments for a HIT
   */
@@ -144,18 +187,6 @@ module.exports = function(config) {
       callback(response);
     });
   }
-  /*
-   * Approves the rejected Assignment
-   *
-   * @param {requesterFeedback} A message for the Worker, which the Worker can see in the Status section of the web site. (string max 1024 characters). Optional
-   * @param {callback} function with signature (error)
-   * 
-   */
-  Assignment.prototype.approveRejected = function(requesterFeedback, callback) {
-    return ret.approveRejected(this.id, requesterFeedback, callback);
-  };
-
-
   
   return ret;
   
